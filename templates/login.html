@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Classroom & Timetable</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(to right, #4a00e0, #8e2de2);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .selection-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 50px 20px;
+        }
+
+        .option-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            width: 250px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .option-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #4a00e0;
+        }
+
+        .option-card h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .option-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .login-container {
+            display: none;
+            padding: 40px;
+        }
+
+        .login-form {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-form h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        input:focus {
+            border-color: #4a00e0;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(74, 0, 224, 0.2);
+        }
+
+        button {
+            background: linear-gradient(to right, #4a00e0, #8e2de2);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 0, 224, 0.3);
+        }
+
+        .back-btn {
+            background: #6c757d;
+            margin-top: 15px;
+        }
+
+        .back-btn:hover {
+            background: #5a6268;
+            box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f1f3f5;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .selection-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+
+            <h1>Smart Classroom & Timetable</h1>
+            <p>Access your educational resources and schedules</p>
+            
+        </header>
+        
+        <!-- Selection Screen -->
+        <div class="selection-container" id="selectionScreen">
+            <div class="option-card" id="studentOption">
+                <div class="option-icon">👨‍🎓</div>
+                <h2>Student Login</h2>
+                <p>Access your timetable, assignments, and study materials</p>
+            </div>
+            
+            <div class="option-card" id="teacherOption">
+                <div class="option-icon">👩‍🏫</div>
+                <h2>Teacher Login</h2>
+                <p>Manage classes, update timetables, and track attendance</p>
+            </div>
+        </div>
+        
+        <!-- Student Login Screen -->
+        <div class="login-container" id="studentLogin">
+            <div class="login-form">
+                <h2>Student Login</h2>
+                <form id="studentForm">
+                    <div class="form-group">
+                        <label for="studentId">Student ID</label>
+                        <input type="text" id="studentId" placeholder="Enter your student ID" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentPassword">Password</label>
+                        <input type="password" id="studentPassword" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit">Login</button>
+                    <button type="button" class="back-btn" onclick="goBackToSelection()">Back</button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Teacher Login Screen -->
+        <div class="login-container" id="teacherLogin">
+            <div class="login-form">
+                <h2>Teacher Login</h2>
+                <form id="teacherForm">
+                    <div class="form-group">
+                        <label for="teacherId">Teacher ID</label>
+                        <input type="text" id="teacherId" placeholder="Enter your teacher ID" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="teacherPassword">Password</label>
+                        <input type="password" id="teacherPassword" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit">Login</button>
+                    <button type="button" class="back-btn" onclick="goBackToSelection()">Back</button>
+                </form>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Smart Classroom & Timetable System © 2023. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Get DOM elements
+        const selectionScreen = document.getElementById('selectionScreen');
+        const studentLogin = document.getElementById('studentLogin');
+        const teacherLogin = document.getElementById('teacherLogin');
+        
+        // Show student login screen
+        document.getElementById('studentOption').addEventListener('click', function() {
+            selectionScreen.style.display = 'none';
+            studentLogin.style.display = 'block';
+        });
+        
+        // Show teacher login screen
+        document.getElementById('teacherOption').addEventListener('click', function() {
+            selectionScreen.style.display = 'none';
+            teacherLogin.style.display = 'block';
+        });
+        
+        // Go back to selection screen
+        function goBackToSelection() {
+            studentLogin.style.display = 'none';
+            teacherLogin.style.display = 'none';
+            selectionScreen.style.display = 'flex';
+        }
+        
+        // Handle form submissions
+        document.getElementById('studentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const studentId = document.getElementById('studentId').value;
+            const password = document.getElementById('studentPassword').value;
+            
+            // In a real application, you would send this data to a server
+            // For demonstration, we'll just show an alert
+            alert(`Student Login Successful!\nID: ${studentId}\n\nThis is a demo. In a real application, credentials would be verified.`);
+            
+            // Clear the form
+            this.reset();
+        });
+        
+        document.getElementById('teacherForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const teacherId = document.getElementById('teacherId').value;
+            const password = document.getElementById('teacherPassword').value;
+            
+            // In a real application, you would send this data to a server
+            // For demonstration, we'll just show an alert
+            alert(`Teacher Login Successful!\nID: ${teacherId}\n\nThis is a demo. In a real application, credentials would be verified.`);
+            
+            // Clear the form
+            this.reset();
+        });
+        
+        // Add some visual feedback on focus
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

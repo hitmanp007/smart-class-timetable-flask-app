@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Classroom & Timetable System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+    --bg-color: #f5f7fa;
+    --text-color: #333;
+    --card-bg: #fff;
+    --header-bg: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+    --table-header: #4b6cb7;
+    --hover-bg: #f1f5ff;
+}
+
+body.dark-mode {
+    --bg-color: #1e1e2f;
+    --text-color: #f5f5f5;
+    --card-bg: #2a2a40;
+    --header-bg: linear-gradient(135deg, #141e30 0%, #243b55 100%);
+    --table-header: #3a5999;
+    --hover-bg: #2f3640;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+header, .footer {
+    background: var(--header-bg);
+}
+
+.role-card,
+.login-container,
+.user-info,
+.smart-classroom,
+.timetable {
+    background: var(--card-bg);
+}
+
+th {
+    background-color: var(--table-header);
+}
+
+tr:hover {
+    background-color: var(--hover-bg);
+}
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        /* Role Selection Page Styles */
+        .role-selection {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .role-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .role-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .role-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #4b6cb7;
+        }
+        
+        .role-card h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .role-card p {
+            color: #7f8c8d;
+        }
+        
+        /* Login Form Styles */
+        .login-container {
+            display: none;
+            max-width: 400px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .login-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .login-container h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4b6cb7;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        input:focus, select:focus {
+            border-color: #4b6cb7;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(75, 108, 183, 0.2);
+        }
+        
+        .login-btn {
+            background: #4b6cb7;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            transition: background 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .login-btn:hover {
+            background: #3a5999;
+        }
+        
+        .back-btn {
+            background: #6c757d;
+            margin-top: 15px;
+        }
+        
+        .back-btn:hover {
+            background: #5a6268;
+        }
+        
+        /* Dashboard Styles */
+        .dashboard {
+            display: none;
+        }
+        
+        .dashboard.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .smart-classroom {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .smart-classroom h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4b6cb7;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .feature:hover {
+            background-color: #f0f5ff;
+            transform: translateY(-3px);
+        }
+        
+        .feature i {
+            font-size: 24px;
+            margin-right: 15px;
+            color: #4b6cb7;
+            width: 30px;
+            text-align: center;
+        }
+        
+        .feature-content h3 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .feature-content p {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .timetable-section {
+            flex: 2;
+            min-width: 600px;
+        }
+        
+        .timetable {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+        }
+        
+        .timetable h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4b6cb7;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #4b6cb7;
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        tr:hover {
+            background-color: #f1f5ff;
+        }
+        
+        .break-cell {
+            background-color: #ffeaa7 !important;
+            font-weight: 600;
+        }
+        
+        .teacher-info {
+            font-size: 0.8rem;
+            color: #666;
+            display: block;
+            margin-top: 3px;
+        }
+        
+        .current-class {
+            background-color: #e8f5e9 !important;
+            font-weight: 600;
+            position: relative;
+        }
+        
+        .current-class::after {
+            content: "Current";
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: #4CAF50;
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        
+        /* Teacher Update Panel */
+        .update-panel {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .update-panel h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s ease;
+            display: block;
+            margin: 20px auto;
+        }
+        
+        .logout-btn:hover {
+            background: #c82333;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 5px;
+            color: white;
+            background-color: #4CAF50;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: none;
+            z-index: 1000;
+        }
+        
+        .notification.error {
+            background-color: #f44336;
+        }
+        
+        .sync-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #4CAF50;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .last-update {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 968px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .timetable-section {
+                min-width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            th, td {
+                padding: 8px 10px;
+                font-size: 0.9rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .role-selection {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .user-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            th, td {
+                padding: 6px 8px;
+                font-size: 0.8rem;
+            }
+            
+            .feature {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .feature i {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="notification" id="notification"></div>
+    
+    <div class="container">
+        <!-- Role Selection Page -->
+        <div id="roleSelection" class="active">
+            <header>
+                <h1>Smart Classroom & Timetable</h1>
+                <p>Select your role to continue</p>
+            </header>
+            
+            <div class="role-selection">
+                <div class="role-card" id="studentRole">
+                    <div class="role-icon">👨‍🎓</div>
+                    <h2>Student Login</h2>
+                    <p>Access your timetable, assignments, and study materials</p>
+                </div>
+                
+                <div class="role-card" id="teacherRole">
+                    <div class="role-icon">👩‍🏫</div>
+                    <h2>Teacher Login</h2>
+                    <p>Manage classes, update timetables, and track attendance</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Student Login Page -->
+        <div class="login-container" id="studentLogin">
+            <h2>Student Login</h2>
+            <form id="studentLoginForm">
+                <div class="form-group">
+                    <label for="studentId">Student ID</label>
+                    <input type="text" id="studentId" placeholder="Enter your student ID" required>
+                </div>
+                <div class="form-group">
+                    <label for="studentPassword">Password</label>
+                    <input type="password" id="studentPassword" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+                <button type="button" class="login-btn back-btn" onclick="goBackToRoleSelection()">Back</button>
+            </form>
+        </div>
+        
+        <!-- Teacher Login Page -->
+        <div class="login-container" id="teacherLogin">
+            <h2>Teacher Login</h2>
+            <form id="teacherLoginForm">
+                <div class="form-group">
+                    <label for="teacherId">Teacher ID</label>
+                    <input type="text" id="teacherId" placeholder="Enter your teacher ID" required>
+                </div>
+                <div class="form-group">
+                    <label for="teacherPassword">Password</label>
+                    <input type="password" id="teacherPassword" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+                <button type="button" class="login-btn back-btn" onclick="goBackToRoleSelection()">Back</button>
+            </form>
+        </div>
+        
+        <!-- Student Dashboard -->
+        <div class="dashboard" id="studentDashboard">
+            <header>
+                <h1>Student Dashboard</h1>
+                <p>Smart Classroom & Timetable</p>
+            </header>
+            
+            <div class="user-info">
+                <div><strong>Student ID:</strong> <span id="displayStudentId">STU2023001</span></div>
+                <div><strong>Class:</strong> Grade 10 - Section A</div>
+                <div><strong>Today:</strong> <span id="currentDate">Loading...</span></div>
+            </div>
+            
+            <div class="main-content">
+                <div class="smart-classroom">
+                    <h2>Smart Classroom</h2>
+                    
+                    <div class="feature">
+                        <i class="fas fa-user-check"></i>
+                        <div class="feature-content">
+                            <h3>Attendance: Check your attendance.</h3>
+                            <p>View your attendance records for all subjects</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature">
+                        <i class="fas fa-bullhorn"></i>
+                        <div class="feature-content">
+                            <h3>Announcements: Notice from Schools.</h3>
+                            <p>Important announcements and notices</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature">
+                        <i class="fas fa-book"></i>
+                        <div class="feature-content">
+                            <h3>Study Material: Access e-books and PDFs Notes.</h3>
+                            <p>Download study materials for your courses</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature">
+                        <i class="fas fa-tasks"></i>
+                        <div class="feature-content">
+                            <h3>Assignments: Submit and check assignments.</h3>
+                            <p>Submit assignments and view feedback</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timetable-section">
+                    <div class="timetable">
+                        <h2>Weekly Timetable <span class="sync-indicator"></span> Live Updates</h2>
+                        <p>This timetable updates automatically when teachers make changes.</p>
+                        
+                        <table id="studentTimetable">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>9-10 AM</th>
+                                    <th>10-11 AM</th>
+                                    <th>11-12 PM</th>
+                                    <th>12-1 PM</th>
+                                    <th>2-3 PM</th>
+                                    <th>3-4 PM</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Table will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="last-update" id="studentLastUpdate">Last update: Never</div>
+                </div>
+            </div>
+            
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+        
+        <!-- Teacher Dashboard -->
+        <div class="dashboard" id="teacherDashboard">
+            <header>
+                <h1>Teacher Dashboard</h1>
+                <p>Smart Classroom & Timetable Management</p>
+            </header>
+            
+            <div class="user-info">
+                <div><strong>Teacher ID:</strong> <span id="displayTeacherId">TCH2023001</span></div>
+                <div><strong>Department:</strong> Science & Mathematics</div>
+                <div><strong>Today:</strong> <span id="teacherCurrentDate">Loading...</span></div>
+            </div>
+            
+            <div class="main-content">
+                <div class="smart-classroom">
+                    <h2>Teacher Tools</h2>
+                    
+                    <div class="feature">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <div class="feature-content">
+                            <h3>Class Management</h3>
+                            <p>Manage your classes and student groups</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature">
+                        <i class="fas fa-clipboard-check"></i>
+                        <div class="feature-content">
+                            <h3>Attendance Tracking</h3>
+                            <p>Track and manage student attendance</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature">
+                        <i class="fas fa-book-open"></i>
+                        <div class="feature-content">
+                            <h3>Resource Management</h3>
+                            <p>Upload and manage teaching materials</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature">
+                        <i class="fas fa-file-alt"></i>
+                        <div class="feature-content">
+                            <h3>Assignment Management</h3>
+                            <p>Create and evaluate student assignments</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timetable-section">
+                    <div class="timetable">
+                        <h2>Weekly Timetable <span class="sync-indicator"></span> Live Updates</h2>
+                        <p>Update the timetable below. Changes will appear instantly in the student view.</p>
+                        
+                        <table id="teacherTimetable">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>9-10 AM</th>
+                                    <th>10-11 AM</th>
+                                    <th>11-12 PM</th>
+                                    <th>12-1 PM</th>
+                                    <th>2-3 PM</th>
+                                    <th>3-4 PM</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Table will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="update-panel">
+                        <h3>Update Timetable</h3>
+                        <div class="form-group">
+                            <label for="updateDay">Select Day:</label>
+                            <select id="updateDay">
+                                <option value="mon">Monday</option>
+                                <option value="tue">Tuesday</option>
+                                <option value="wed">Wednesday</option>
+                                <option value="thu">Thursday</option>
+                                <option value="fri">Friday</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="updateTime">Select Time Slot:</label>
+                            <select id="updateTime">
+                                <option value="9">9-10 AM</option>
+                                <option value="10">10-11 AM</option>
+                                <option value="11">11-12 PM</option>
+                                <option value="2">2-3 PM</option>
+                                <option value="3">3-4 PM</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="updateSubject">Subject:</label>
+                            <input type="text" id="updateSubject" placeholder="Enter subject name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="updateTeacher">Teacher's Name:</label>
+                            <input type="text" id="updateTeacher" placeholder="Enter teacher's name">
+                        </div>
+                        
+                        <button id="updateTimetableBtn">Update Timetable</button>
+                        <div class="last-update" id="teacherLastUpdate">Last update: Never</div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+        
+        <div class="footer">
+            Smart Classroom System &copy; 2023
+        </div>
+    </div>
+
+    <script>
+        // Notification function
+        function showNotification(message, isError = false) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            
+            if (isError) {
+                notification.classList.add('error');
+            } else {
+                notification.classList.remove('error');
+            }
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Set current date
+        function setCurrentDate() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
+            document.getElementById('teacherCurrentDate').textContent = now.toLocaleDateString('en-US', options);
+        }
+        
+        // Initialize timetable data structure in localStorage
+        function initializeTimetableData() {
+            // Check if timetable data exists in localStorage
+            if (!localStorage.getItem('timetableData')) {
+                // Create initial timetable data
+                const initialData = {
+                    "mon": {
+                        "9": { subject: "Mathematics", teacher: "Mr. Sharma" },
+                        "10": { subject: "Physics", teacher: "Ms. Patel" },
+                        "11": { subject: "Chemistry", teacher: "Dr. Kumar" },
+                        "12": { subject: "Lunch Break", teacher: "" },
+                        "2": { subject: "Biology", teacher: "Mrs. Gupta" },
+                        "3": { subject: "English", teacher: "Mr. Johnson" }
+                    },
+                    "tue": {
+                        "9": { subject: "Physics", teacher: "Ms. Patel" },
+                        "10": { subject: "Chemistry", teacher: "Dr. Kumar" },
+                        "11": { subject: "Mathematics", teacher: "Mr. Sharma" },
+                        "12": { subject: "Lunch Break", teacher: "" },
+                        "2": { subject: "English", teacher: "Mr. Johnson" },
+                        "3": { subject: "Computer Science", teacher: "Ms. Lee" }
+                    },
+                    "wed": {
+                        "9": { subject: "Chemistry", teacher: "Dr. Kumar" },
+                        "10": { subject: "Mathematics", teacher: "Mr. Sharma" },
+                        "11": { subject: "Physics", teacher: "Ms. Patel" },
+                        "12": { subject: "Lunch Break", teacher: "" },
+                        "2": { subject: "Physical Education", teacher: "Coach Singh" },
+                        "3": { subject: "History", teacher: "Mrs. Das" }
+                    },
+                    "thu": {
+                        "9": { subject: "Mathematics", teacher: "Mr. Sharma" },
+                        "10": { subject: "Physics", teacher: "Ms. Patel" },
+                        "11": { subject: "Chemistry", teacher: "Dr. Kumar" },
+                        "12": { subject: "Lunch Break", teacher: "" },
+                        "2": { subject: "English", teacher: "Mr. Johnson" },
+                        "3": { subject: "Geography", teacher: "Mr. Ahmed" }
+                    },
+                    "fri": {
+                        "9": { subject: "Physics", teacher: "Ms. Patel" },
+                        "10": { subject: "Chemistry", teacher: "Dr. Kumar" },
+                        "11": { subject: "Mathematics", teacher: "Mr. Sharma" },
+                        "12": { subject: "Lunch Break", teacher: "" },
+                        "2": { subject: "Art", teacher: "Ms. Chen" },
+                        "3": { subject: "Music", teacher: "Mr. Williams" }
+                    }
+                };
+                
+                localStorage.setItem('timetableData', JSON.stringify(initialData));
+                localStorage.setItem('lastUpdate', new Date().toLocaleString());
+            }
+        }
+        
+        // Get timetable data from localStorage
+        function getTimetableData() {
+            return JSON.parse(localStorage.getItem('timetableData'));
+        }
+        
+        // Save timetable data to localStorage
+        function saveTimetableData(data) {
+            localStorage.setItem('timetableData', JSON.stringify(data));
+            localStorage.setItem('lastUpdate', new Date().toLocaleString());
+        }
+        
+        // Populate the timetable with data
+        function populateTimetable(tableId, data) {
+            const days = ['mon', 'tue', 'wed', 'thu', 'fri'];
+            const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+            const timeSlots = ['9', '10', '11', '2', '3'];
+            
+            const tbody = document.querySelector(`#${tableId} tbody`);
+            tbody.innerHTML = '';
+            
+            days.forEach((day, dayIndex) => {
+                const row = document.createElement('tr');
+                
+                // Add day cell
+                const dayCell = document.createElement('td');
+                dayCell.textContent = dayNames[dayIndex];
+                row.appendChild(dayCell);
+                
+                // Add time slot cells
+                timeSlots.forEach(timeSlot => {
+                    const cell = document.createElement('td');
+                    
+                    // Find the class for this day and time slot
+                    const classInfo = data[day][timeSlot];
+                    
+                    if (classInfo) {
+                        cell.innerHTML = `${classInfo.subject} <span class="teacher-info">(${classInfo.teacher})</span>`;
+                    } else if (timeSlot === '12') {
+                        // This would be the break time
+                        cell.textContent = 'Break';
+                        cell.classList.add('break-cell');
+                    } else {
+                        cell.textContent = 'Free';
+                    }
+                    
+                    row.appendChild(cell);
+                });
+                
+                tbody.appendChild(row);
+            });
+            
+            // Highlight current day and current class for student view
+            if (tableId === 'studentTimetable') {
+                highlightCurrentDayAndClass();
+            }
+        }
+        
+        // Highlight current day and current class in timetable
+        function highlightCurrentDayAndClass() {
+            const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+            const now = new Date();
+            const today = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
+            const currentHour = now.getHours();
+            
+            // Only highlight if it's a weekday
+            if (today >= 1 && today <= 5) {
+                const rows = document.querySelectorAll('#studentTimetable tbody tr');
+                rows[today - 1].style.backgroundColor = '#e3f2fd';
+                rows[today - 1].style.fontWeight = '600';
+                
+                // Highlight current class if applicable
+                if (currentHour >= 9 && currentHour <= 16) {
+                    let timeSlot;
+                    if (currentHour === 9) timeSlot = 1; // 9-10 AM
+                    else if (currentHour === 10) timeSlot = 2; // 10-11 AM
+                    else if (currentHour === 11) timeSlot = 3; // 11-12 PM
+                    else if (currentHour === 14) timeSlot = 4; // 2-3 PM
+                    else if (currentHour === 15) timeSlot = 5; // 3-4 PM
+                    
+                    if (timeSlot) {
+                        const currentCell = rows[today - 1].cells[timeSlot];
+                        if (currentCell && !currentCell.classList.contains('break-cell')) {
+                            currentCell.classList.add('current-class');
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Update timetable entry
+        function updateTimetableEntry(day, time, subject, teacher) {
+            const data = getTimetableData();
+            
+            // Update the data
+            data[day][time] = {
+                subject: subject,
+                teacher: teacher
+            };
+            
+            // Save the updated data
+            saveTimetableData(data);
+            
+            // Update both teacher and student views
+            populateTimetable('teacherTimetable', data);
+            populateTimetable('studentTimetable', data);
+            
+            // Update last update time
+            const lastUpdate = localStorage.getItem('lastUpdate');
+            document.getElementById('teacherLastUpdate').textContent = `Last update: ${lastUpdate}`;
+            document.getElementById('studentLastUpdate').textContent = `Last update: ${lastUpdate}`;
+            
+            return true;
+        }
+        
+        // Check for updates (simulates real-time synchronization)
+        function checkForUpdates() {
+            const currentData = JSON.stringify(getTimetableData());
+            const lastKnownData = localStorage.getItem('lastKnownData');
+            
+            // If data has changed, update the views
+            if (lastKnownData !== currentData) {
+                const data = getTimetableData();
+                populateTimetable('teacherTimetable', data);
+                populateTimetable('studentTimetable', data);
+                
+                const lastUpdate = localStorage.getItem('lastUpdate');
+                document.getElementById('teacherLastUpdate').textContent = `Last update: ${lastUpdate}`;
+                document.getElementById('studentLastUpdate').textContent = `Last update: ${lastUpdate}`;
+                
+                localStorage.setItem('lastKnownData', currentData);
+                
+                // Show notification on student view if it's active
+                if (document.getElementById('studentDashboard').classList.contains('active')) {
+                    showNotification('Timetable has been updated!');
+                }
+            }
+        }
+        
+        // Navigation functions
+        function showStudentLogin() {
+            document.getElementById('roleSelection').classList.remove('active');
+            document.getElementById('studentLogin').classList.add('active');
+        }
+        
+        function showTeacherLogin() {
+            document.getElementById('roleSelection').classList.remove('active');
+            document.getElementById('teacherLogin').classList.add('active');
+        }
+        
+        function goBackToRoleSelection() {
+            document.getElementById('studentLogin').classList.remove('active');
+            document.getElementById('teacherLogin').classList.remove('active');
+            document.getElementById('studentDashboard').classList.remove('active');
+            document.getElementById('teacherDashboard').classList.remove('active');
+            document.getElementById('roleSelection').classList.add('active');
+        }
+        
+        function showStudentDashboard() {
+            document.getElementById('studentLogin').classList.remove('active');
+            document.getElementById('studentDashboard').classList.add('active');
+        }
+        
+        function showTeacherDashboard() {
+            document.getElementById('teacherLogin').classList.remove('active');
+            document.getElementById('teacherDashboard').classList.add('active');
+        }
+        
+        function logout() {
+            document.getElementById('studentDashboard').classList.remove('active');
+            document.getElementById('teacherDashboard').classList.remove('active');
+            document.getElementById('roleSelection').classList.add('active');
+            showNotification('You have been logged out successfully');
+        }
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current date
+            setCurrentDate();
+            
+            // Initialize timetable data
+            initializeTimetableData();
+            
+            // Load initial data
+            const data = getTimetableData();
+            populateTimetable('studentTimetable', data);
+            populateTimetable('teacherTimetable', data);
+            
+            // Set last update time
+            const lastUpdate = localStorage.getItem('lastUpdate');
+            if (lastUpdate) {
+                document.getElementById('teacherLastUpdate').textContent = `Last update: ${lastUpdate}`;
+                document.getElementById('studentLastUpdate').textContent = `Last update: ${lastUpdate}`;
+            }
+            
+            // Set up role selection
+            document.getElementById('studentRole').addEventListener('click', showStudentLogin);
+            document.getElementById('teacherRole').addEventListener('click', showTeacherLogin);
+            
+            // Set up student login form
+            document.getElementById('studentLoginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const studentId = document.getElementById('studentId').value;
+                const password = document.getElementById('studentPassword').value;
+                
+                // Simple validation (in a real app, this would check against a database)
+                if (studentId && password) {
+                    document.getElementById('displayStudentId').textContent = studentId;
+                    showStudentDashboard();
+                    showNotification(`Welcome, Student ${studentId}!`);
+                } else {
+                    showNotification('Please enter both student ID and password', true);
+                }
+            });
+            
+            // Set up teacher login form
+            document.getElementById('teacherLoginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const teacherId = document.getElementById('teacherId').value;
+                const password = document.getElementById('teacherPassword').value;
+                
+                // Simple validation (in a real app, this would check against a database)
+                if (teacherId && password) {
+                    document.getElementById('displayTeacherId').textContent = teacherId;
+                    showTeacherDashboard();
+                    showNotification(`Welcome, Teacher ${teacherId}!`);
+                } else {
+                    showNotification('Please enter both teacher ID and password', true);
+                }
+            });
+            
+            // Set up timetable update button
+            document.getElementById('updateTimetableBtn').addEventListener('click', function() {
+                const day = document.getElementById('updateDay').value;
+                const time = document.getElementById('updateTime').value;
+                const subject = document.getElementById('updateSubject').value.trim();
+                const teacher = document.getElementById('updateTeacher').value.trim();
+                
+                if (!subject || !teacher) {
+                    showNotification('Please enter both subject and teacher name', true);
+                    return;
+                }
+                
+                if (updateTimetableEntry(day, time, subject, teacher)) {
+                    showNotification('Timetable updated successfully!');
+                    document.getElementById('updateSubject').value = '';
+                    document.getElementById('updateTeacher').value = '';
+                } else {
+                    showNotification('Failed to update timetable', true);
+                }
+            });
+            
+            // Add click effect to features
+            const features = document.querySelectorAll('.feature');
+            features.forEach(feature => {
+                feature.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+                    
+                    // Show a simple alert (in a real app, this would navigate to the feature)
+                    const featureName = this.querySelector('h3').textContent;
+                    showNotification(`Opening ${featureName}`);
+                });
+            });
+            
+            // Store initial data for change detection
+            localStorage.setItem('lastKnownData', JSON.stringify(getTimetableData()));
+            
+            // Check for updates every 2 seconds (simulates real-time sync)
+            setInterval(checkForUpdates, 2000);
+        });
+        
+    </script>
+
+</body>
+</html>
